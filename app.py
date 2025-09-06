@@ -62,18 +62,22 @@ def generate_meter(time_of_day, actual):
 
     return highlighted_segments, 10 - highlighted_segments  # Segments that are filled and remaining
 
-# Serve static files (like index.html and Locations.html) from the 'public' folder
+# Serve static files from the root directory
 @app.route("/")
 def index():
-    return send_from_directory(os.path.join(app.root_path, 'public'), 'index.html')
-
-@app.route('/public/<path:filename>')
-def serve_static(filename):
-    return send_from_directory(os.path.join(app.root_path, 'public'), filename)
+    return send_from_directory(os.path.join(app.root_path), 'index.html')
 
 @app.route("/Locations.html")
 def locations():
-    return send_from_directory(os.path.join(app.root_path, 'public'), 'Locations.html')
+    return send_from_directory(os.path.join(app.root_path), 'Locations.html')
+
+@app.route("/styles.css")
+def serve_css():
+    return send_from_directory(os.path.join(app.root_path), 'styles.css')
+
+@app.route("/images/<path:filename>")
+def serve_images(filename):
+    return send_from_directory(os.path.join(app.root_path, 'images'), filename)
 
 # API route to fetch actual dog count from another service
 @app.route("/api/status")
